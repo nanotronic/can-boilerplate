@@ -1,5 +1,9 @@
 {
   "name": "your-project",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "chai": "1.9.x",
+    "funcunit": "2.1.x",
+    "mocha": "1.17.x"
+  }
 }

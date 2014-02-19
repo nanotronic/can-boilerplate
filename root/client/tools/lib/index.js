@@ -1,11 +1,12 @@
+//var bower = require("./util/bower");
 var fs = require("fs");
-var runCommand = require("./util/runCommand");
+var shell = require("./util/shell");
 
 var client = require("path").resolve(__dirname+"/../../");
 
 
 
-exports.init = function(endGruntTask)
+function init(endGruntTask)
 {
 	// If parent Grunt task, reinstall everything
 	var hasBowerComponents = (endGruntTask) ? false : fs.existsSync(client+"/private/vendors/");
@@ -15,30 +16,30 @@ exports.init = function(endGruntTask)
 	{
 		if (hasBowerComponents)
 		{
-			exports.finished(endGruntTask);
+			finished(endGruntTask);
 		}
 		else
 		{
-			runCommand("bower", "install", client, function()
+			bowerInstall( function()
 			{
-				exports.finished(endGruntTask);
+				finished(endGruntTask);
 			});
 		}
 	}
 	else
 	{
-		runCommand("npm", "install", client, function()
+		shell("npm", "install", client, function()
 		{
 			if (!hasBowerComponents)
 			{
-				runCommand("bower", "install", client, function()
+				bowerInstall( function()
 				{
-					exports.finished(endGruntTask);
+					finished(endGruntTask);
 				});
 			}
 			else
 			{
-				exports.finished(endGruntTask);
+				finished(endGruntTask);
 			}
 		});
 	}
@@ -48,7 +49,16 @@ exports.init = function(endGruntTask)
 
 
 
-exports.finished = function(endGruntTask)
+function bowerInstall(callback)
+{
+	shell("bower", "install", client, callback);
+	
+	//bower.install(callback);
+}
+
+
+
+function finished(endGruntTask)
 {
 	// Complete any parent Grunt task
 	if (endGruntTask)
@@ -61,6 +71,7 @@ exports.finished = function(endGruntTask)
 		// Hack
 		require("grunt").cli(
 		{
+			//stack: true,	// debug
 			base: client,
 			gruntfile: client+"/Gruntfile.js"
 		});
@@ -80,5 +91,12 @@ if (process.argv[2] != undefined)
 	
 	// Any other parameter will be passed as a Grunt task
 	
-	exports.init();
+	init();
 }
+
+
+
+module.exports =
+{
+	init: init
+};
