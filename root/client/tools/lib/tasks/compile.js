@@ -34,7 +34,7 @@ module.exports = function(grunt)
 				
 				normalizer: function(filename)
 				{
-					return filename.replace( grunt.template.process("<%= cfg.distFolder %>"), "" );
+					return filename.replace( grunt.template.process("<%= cfg.devFolder %>"), "" );
 				}
 			}
 		},
