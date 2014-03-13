@@ -337,7 +337,7 @@ module.exports = function(grunt)
 					banner: "/* v<%= cfg.pkg.version %> (<%= grunt.template.today('mmm-d-yyyy') %>) */\n",
 					sourceMap: true,	// gets changed
 					sourceMapIn:   "<%= cfg.distFolder %>/app.js.map",	// input from requirejs
-					sourceMapName: "<%= cfg.distFolder %>/app.js.map",	// output
+					//sourceMapName: "<%= cfg.distFolder %>/app.js.map",	// output
 					sourceMapIncludeSources: true
 				},
 				src:  "<%= cfg.distFolder %>/app.js",
